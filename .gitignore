@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Окружение
+.venv/
+.env
+
+# Кэши инструментов
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Графики, кроме картинок для README
+*.png
+!docs/*.png
+
+# IDE и система
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
