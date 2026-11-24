@@ -12,11 +12,7 @@ from perceptron_lab.model import Perceptron
 
 
 def positive_int(value: str) -> int:
-    """Преобразует аргумент в целое число больше нуля.
 
-    Raises:
-        argparse.ArgumentTypeError: Если значение не целое или не положительное.
-    """
     try:
         number = int(value)
     except ValueError:
@@ -27,11 +23,7 @@ def positive_int(value: str) -> int:
 
 
 def positive_float(value: str) -> float:
-    """Преобразует аргумент в вещественное число больше нуля.
 
-    Raises:
-        argparse.ArgumentTypeError: Если значение не число или не положительное.
-    """
     try:
         number = float(value)
     except ValueError:
@@ -42,7 +34,7 @@ def positive_float(value: str) -> float:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    """Создаёт парсер аргументов командной строки."""
+
     parser = argparse.ArgumentParser(
         prog="perceptron",
         description="Обучение перцептрона Розенблатта на синтетических данных или Iris.",
@@ -71,14 +63,6 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def run(args: argparse.Namespace) -> float:
-    """Загружает данные, обучает модель, печатает результат и строит графики.
-
-    Args:
-        args: Разобранные аргументы командной строки.
-
-    Returns:
-        Итоговая точность модели.
-    """
     if args.dataset == "iris":
         X, y, feature_names = load_iris_binary(seed=args.seed if args.seed is not None else 0)
         title = "Iris: setosa vs versicolor"
@@ -109,14 +93,7 @@ def run(args: argparse.Namespace) -> float:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    """Точка входа CLI.
 
-    Args:
-        argv: Аргументы командной строки (по умолчанию берутся из ``sys.argv``).
-
-    Returns:
-        Код завершения: 0 при успехе, 1 при ошибке.
-    """
     args = build_parser().parse_args(argv)
     try:
         run(args)
