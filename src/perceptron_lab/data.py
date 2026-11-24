@@ -21,7 +21,25 @@ def generate_synthetic_data(
     centers: tuple[Point, Point] = (CLASS0_CENTER, CLASS1_CENTER),
     spread: float = SPREAD,
 ) -> tuple[list[list[float]], list[int]]:
+    """Генерирует два линейно разделимых облака точек на плоскости.
 
+    Точки класса 0 и класса 1 берутся из нормального распределения вокруг
+    своих центров. Центры отстоят друг от друга примерно на 8.5 стандартных
+    отклонений, поэтому классы практически всегда разделимы прямой.
+    После генерации выборка перемешивается.
+
+    Args:
+        samples: Общее число точек (не меньше 2).
+        seed: Зерно генератора случайных чисел для воспроизводимости.
+        centers: Центры классов 0 и 1.
+        spread: Стандартное отклонение по каждой координате.
+
+    Returns:
+        Пара ``(X, y)``: список точек ``[x1, x2]`` и список меток 0/1.
+
+    Raises:
+        ValueError: Если ``samples < 2`` или ``spread <= 0``.
+    """
     if samples < 2:
         raise ValueError(f"samples должно быть >= 2, получено {samples}")
     if spread <= 0:
@@ -44,7 +62,14 @@ def generate_synthetic_data(
 
 
 def standardize(X: Sequence[Sequence[float]]) -> list[list[float]]:
+    """Приводит каждый признак к нулевому среднему и единичному отклонению.
 
+    Args:
+        X: Матрица признаков (непустая).
+
+    Returns:
+        Новая матрица со стандартизированными признаками.
+    """
     n_rows = len(X)
     n_cols = len(X[0])
     means = [sum(row[j] for row in X) / n_rows for j in range(n_cols)]
@@ -57,7 +82,19 @@ def standardize(X: Sequence[Sequence[float]]) -> list[list[float]]:
 def load_iris_binary(
     seed: int | None = 0, scale: bool = True
 ) -> tuple[list[list[float]], list[int], list[str]]:
+    """Загружает два линейно разделимых класса из датасета Iris.
 
+    Берутся классы setosa (0) и versicolor (1) и два признака:
+    длина и ширина чашелистика. Данные перемешиваются, потому что в Iris
+    они отсортированы по классам, и по умолчанию стандартизируются.
+
+    Args:
+        seed: Зерно для перемешивания.
+        scale: Стандартизировать ли признаки.
+
+    Returns:
+        Тройка ``(X, y, feature_names)``.
+    """
     iris = load_iris()
     rows: list[tuple[list[float], int]] = [
         ([float(features[0]), float(features[1])], int(target))
